@@ -4,6 +4,6 @@ import OrderListRepository from "@adapters/repositories/OrderListRepository";
 
 export default (infrastructures: IInfrastructures): IRepositories => {
   return {
-    orderList: OrderListRepository.getInstance(infrastructures.importer),
+    orderList: OrderListRepository.getInstance(infrastructures.http),
   };
 };
