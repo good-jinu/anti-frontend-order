@@ -13,8 +13,10 @@ class Http implements IHttp {
     return fetch(requestOption.url, option)
       .then(res => {
         const status = res.status;
-        const data = res.body;
-        return new NetworkResponse(status, '', data);
+        return res.json()
+          .then(data => {
+            return new NetworkResponse(status, '', data);
+          })
       })
       .catch(e => {
         Logger.e(e);

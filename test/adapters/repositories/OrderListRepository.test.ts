@@ -3,9 +3,11 @@ import {OrderDto} from "@domains/dto/OrderDto";
 import OrderAssetImporter from '@adapters/infrastructures/OrderAssetImporter';
 import { IOrderListRepository } from '@domains/usecases/repositories/iOrderListRepository';
 import { IAssetImporter } from '@adapters/infrastructures/interfaces/iAssetImporter';
+import Http from "@adapters/infrastructures/Http";
 
-const assetImporter: IAssetImporter = OrderAssetImporter.getInstance();
-const repository: IOrderListRepository = OrderListRepository.getInstance(assetImporter);
+//const assetImporter: IAssetImporter = OrderAssetImporter.getInstance();
+const http = new Http();
+const repository: IOrderListRepository = OrderListRepository.getInstance(http);
 
 
 describe('OrderListRepository Test', () => {

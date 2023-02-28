@@ -15,7 +15,7 @@ const OrderList: React.FC = () => {
   useEffect(() => {
     setLoadingStateTrue();
     setTimeout(async () => {
-      await vm.getOrderList();
+      vm.getOrderList();
       setLoadingStateFalse();
     }, 1000);
   }, []);

@@ -3,23 +3,32 @@ import { OrderDto } from "@domains/dto/OrderDto";
 import { IOrderListRepository } from "@domains/usecases/repositories/iOrderListRepository";
 import {ShippingDto} from "@domains/dto/ShippingDto";
 import {OrderProductDto} from "@domains/dto/OrderProductDto";
+import {IHttp} from "@adapters/infrastructures/interfaces/iHttp";
 
 class OrderListRepository implements IOrderListRepository {
   private static instance: OrderListRepository;
 
   private constructor(
-    private readonly assetImporter: IAssetImporter
+    private readonly http: IHttp,
+    private readonly apiHost: string
   ) {}
 
-  static getInstance(assetImporter: IAssetImporter) {
+  static getInstance(
+    http: IHttp,
+    apiHost: string = 'http://localhost:3003'
+  ) {
     if(!OrderListRepository.instance) {
-      OrderListRepository.instance = new OrderListRepository(assetImporter);
+      OrderListRepository.instance = new OrderListRepository(http, apiHost);
     }
     return OrderListRepository.instance;
   }
 
   async getOrderList(): Promise<OrderDto[]> {
-    const json = await this.assetImporter.get();
+    const response = await this.http.request({
+      method: 'GET',
+      url: this.apiHost + '/order'
+    });
+    const json = response.data;
 
     const orderProductList = Array<OrderProductDto>();
     for(let i=0; i<json.products.length; i++) {
@@ -56,7 +65,7 @@ class OrderListRepository implements IOrderListRepository {
 
     orderList.push(orderItem);
 
-    return orderList;
+    return Promise.resolve(orderList);
   }
 }
 

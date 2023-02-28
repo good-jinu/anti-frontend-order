@@ -5,9 +5,11 @@ import OrderAssetImporter from '@adapters/infrastructures/OrderAssetImporter';
 import { IOrderListRepository } from '@domains/usecases/repositories/iOrderListRepository';
 import { IAssetImporter } from '@adapters/infrastructures/interfaces/iAssetImporter';
 import { IOrderListUseCase } from '@domains/usecases/interfaces/iOrderListUseCase';
+import Http from "@adapters/infrastructures/Http";
 
-const assetImporter: IAssetImporter = OrderAssetImporter.getInstance();
-const repository: IOrderListRepository = OrderListRepository.getInstance(assetImporter);
+//const assetImporter: IAssetImporter = OrderAssetImporter.getInstance();
+const http = new Http();
+const repository: IOrderListRepository = OrderListRepository.getInstance(http);
 const useCase: IOrderListUseCase = OrderListUseCase.getInstance(repository);
 
 
